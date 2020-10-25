@@ -1,14 +1,14 @@
 # busykoala.ch
 
-## Installation
+## Installation & Usage...
 
-TODO: Create "Build"-Container with pandoc in there...
+Ongoing work...
 
+```
+docker build -t latex2website
+docker run -e SOURCE=./source STYLES=./styles latex2website:latest
 
-
-The blog content is written in latex and then rendered
-to html using pandoc. Therefore install pandoc.
-
-Then install the python packages using `pip install -r requirements.txt`.
-
-## Run Static Page Generator
+# debug
+CMD tail -f /dev/null
+docker exec -it <container-id> sh
+```
