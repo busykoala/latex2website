@@ -13,6 +13,6 @@ into `out` directory.
 Render all blogposts to `./out` using:
 
 ```
-docker build -t latex2website
+docker build -t latex2website .
 docker run -v `pwd`/out:/out latex2website:latest
 ```

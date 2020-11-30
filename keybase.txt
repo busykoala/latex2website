@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/busykoala
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://busykoala.ch
+  * I am busykoala (https://keybase.io/busykoala) on keybase.
+  * I have a public key ASB9Vbu8r2IAJHfasX1WQRCgWgd3GodWuEzDtWoqkGoipgo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01207d55bbbcaf62002477dab17d564110a05a07771a8756b84cc3b56a2a906a22a60a",
+      "host": "keybase.io",
+      "kid": "01207d55bbbcaf62002477dab17d564110a05a07771a8756b84cc3b56a2a906a22a60a",
+      "uid": "af1fe3cb333294cbd1b022365c3d6519",
+      "username": "busykoala"
+    },
+    "merkle_root": {
+      "ctime": 1592239704,
+      "hash": "00f29c199754015f462005f4e722f859795e691e5e0cafee7f93922e661e4edaa44617ac1a5b125ef6e6850ef858a981cf6380920ea710448efd5a4755682dbc",
+      "hash_meta": "4480e25b6359636dc7ccabba642c5d98cb1b2fc015368b457f86794fcb087551",
+      "seqno": 16672680
+    },
+    "service": {
+      "entropy": "lXXABebHMQLvHt9A6lwaTt1g",
+      "hostname": "busykoala.ch",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.5.0"
+  },
+  "ctime": 1592239742,
+  "expire_in": 504576000,
+  "prev": "24e9e2be47152ea3ff4d7df314f3bf842833d863900e793ba14c38515813b011",
+  "seqno": 10,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgfVW7vK9iACR32rF9VkEQoFoHdxqHVrhMw7VqKpBqIqYKp3BheWxvYWTESpcCCsQgJOnivkcVLqP/TX3zFPO/hCgz2GOQDnk7oUw4UVgTsBHEIBAqvNYVa36C7CimlsSgiDcrmVWjebnozlwXf3GAY0JdAgHCo3NpZ8RAaJSZbsu/o2mQNQ0Hsxw7EHrugB5ApcvhMhuRefZkal2003y2uBgrfpX4CBnJjhpUo81MZQXBIkizpiKSizZ4DqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIEQSoL8jUx+Wk+5qV7IcC6J/fLqr7DZ/b756LeH0xgEmo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/busykoala
+
+==================================================================

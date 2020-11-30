@@ -1,0 +1,77 @@
+body {
+  background: rgba(255, 255, 255, 1);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: rgba(0, 52, 102, .7);
+  height: 20px;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 100px auto 0 auto;
+  max-width: 80%;
+}
+
+.icon-body {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  text-align: center;
+}
+
+.link-text {
+  color: rgba(0, 52, 102, .7);
+  text-decoration: none;
+}
+
+.fab, .fas {
+  color: rgba(0, 52, 102, .7);
+  font-size: 60px;
+}
+
+.text-section {
+  margin: 0 auto 100px auto;
+  padding: 20px;
+  width: 570px;
+}
+
+.text-mono {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.text-color-green {
+  color: green;
+}
+
+.text-color-blue {
+  color: rgba(0, 52, 102, .6);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  color: rgba(0, 52, 102, .6);
+
+}
+
+a:focus {
+  color: black;
+  color: rgba(0, 52, 102, .6);
+}
+
+h1 {
+  font-size: 25px;
+}
+
+h2 {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
