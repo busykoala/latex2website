@@ -1,11 +1,281 @@
 \documentclass{article}
   \usepackage{amsmath}
+  \usepackage{listings}
+  \usepackage[hidelinks]{hyperref}
 
   \begin{document}
 
   \section{Getting Started with LaTeX}
-  Lorem ipsum dolor sit amet.
-  \subsection{I'm a subsection}
-  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+  LaTeX is great for many use cases. It makes it very handy to cite and add a
+  bibliography, put references in a file or place elements without them jumping
+  around randomly. Also it is pretty easy to work with formulas and equations.
+
+  Other reasons to choose LaTeX are that it is platform independent and the
+  changes can be tracked well in version control.
+
+  \subsection{How to structure my project}
+
+  I usually create a similar structure as below for my documents. There is a
+  directory to put the figures, another containing the literature file and the
+  third for the glossary and acronym entries.
+  The main.tex file contains the actual document. The Makefile is the
+  configuration for building the document and the README.md documents how
+  everything is done. For bigger projects I add a content folder with files for
+  each section.
+
+  \begin{lstlisting}[language=Bash]
+  $ tree
+    .
+    ├─ figures
+    │  └─ figure1.png
+    ├─ bib
+    │  └─ literature.bib
+    ├─ glossary
+    │  ├─ glossary.tex
+    │  └─ acronym.tex
+    ├─ main.tex
+    ├─ Makefile
+    └─ README.md
+  \end{lstlisting}
+
+  \subsection{Makefile - How to Build the Document}
+
+  On Linux or MacOS we can define a makefile as below to compile the document
+  on changing anything. It has a section to run all the compilation commands
+  necessary to build the document, the bibliography and the glossary. Then
+  there is a section to clean up and one to watch file changes and rerunning
+  the latter.
+
+  \begin{lstlisting}
+    ALL=$(wildcard *.tex content/*.tex figures/*.{png,jpg})
+    MAIN=main.tex
+    LATEX=rubber --pdf
+    SHELL=/bin/sh
+
+    all:
+      $(LATEX) $(MAIN)
+      biber $(MAIN:.tex=)
+      makeglossaries $(MAIN:.tex=)
+      $(LATEX) $(MAIN)
+
+    clean:
+      rubber --clean $(MAIN)
+
+    watch:
+      @while [ 1 ]; do             \
+        inotifywait $(ALL);        \
+        sleep 0.01;                \
+        make all;                  \
+        make clean;                \
+        echo "%%%%%%%%%%%%%%%%%%"; \
+        echo "Finished Compiling"; \
+        echo "%%%%%%%%%%%%%%%%%%"; \
+        done
+  \end{lstlisting}
+
+  \subsection{Bibliography \& Glossary/Acronyms}
+
+  The bibliography source and the definitions of glossary and acronym entries
+  are located in separate files. The bibliography file can either be assembled
+  by hand or exported from e.g. Zotero. \\
+  Within the headers there is the hyperref package. It sets clickable
+  references wherever there is a citation or reference to one of the
+  glossaries.\\
+  Then defining biblatex we choose between many citation styles (here IEEE).
+  Since we use biber as the backend there are a whole lot of styles to choose
+  from, probably including the one you have to use.
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \usepackage[hidelinks]{hyperref}
+      \usepackage[style=ieee,backend=biber]{biblatex}
+      \addbibresource{bib/literature.bib}
+      \usepackage[acronym]{glossaries}
+      \makeglossaries
+
+      \begin{document}
+      \section{First Section}
+      Example Quotation \cite{aharonov2008quantum} \\
+      Example Acronym \acrshort{ITSCM} \\
+      Example Glossary \Gls{microservice} \\
+
+      \printbibliography
+      \input{glossary/glossary.tex}
+      \printglossary
+      \input{glossary/acronym.tex}
+      \printglossary[type=\acronymtype]
+      \end{document}
+  \end{lstlisting}
+
+  Glossary entries in glossary/glossary.tex start with the tag to be referenced
+  with. Then they have a name and a description.
+
+  \begin{lstlisting}
+    \newglossaryentry{microservice}
+    {
+      name=Microservice,
+      description={A microservice is a service to be used in a bigger context.}
+    }
+  \end{lstlisting}
+
+  Acronym entries contain the tag to be referenced, the acronym and its
+  meaning.
+
+  \begin{lstlisting}
+    \newacronym{ITSCM}{ITSCM}{IT Service Continuity Management}
+  \end{lstlisting}
+
+  Check out \href{https://www.overleaf.com/learn/latex/Glossaries}{Overleaf}
+  to get more information about how to use glossaries.
+
+  \subsection{Table of Content \& Appendix}
+
+  Adding a table of content is a piece of cake. Also, adding the appendix is
+  not rocket science either. The appendices are numbered A, B, C...
+  automatically.
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \usepackage[toc,page]{appendix}
+
+      \begin{document}
+      \tableofcontents
+
+      \section{First Section}
+      Normal section
+
+      \begin{appendices}
+        \section{I'm Appendix A}
+        Some text
+        \section{I'm Appendix B}
+        More text
+      \end{appendices}
+      \end{document}
+  \end{lstlisting}
+
+  \subsection{List of Figures \& Tables}
+
+  Let's add some more Lists to the document. The included packages help to
+  easily add figures and tables. Adding something in the figure or table
+  section will automatically add it to it's corresponding list using the
+  caption as it's title.
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \usepackage{graphicx}
+      \usepackage{tabularx}
+      \usepackage{float}
+
+      \begin{document}
+
+      \begin{figure}[H]
+        \centering
+        \includegraphics[scale=.5]{figures/example_figure.png} \\
+        \caption{Example Figure}\label{fig:example_figure}
+      \end{figure}
+
+      \begin{table}[htbp]
+        \centering
+        \begin{tabularx}{\textwidth}{| p{1cm} | X | p{6cm} |}
+          \hline
+            1 & Lorem
+              & Ipsum \\ \hline
+            2 & Dolorum
+              & Est \\ \hline
+        \end{tabularx}
+        \caption{Example Table}\label{tbl:example_table}
+      \end{table}
+
+      \listoffigures
+      \listoftables
+      \end{document}
+  \end{lstlisting}
+
+  The label lets us reference the table like:
+
+  \begin{lstlisting}
+    \autoref{fig:example_figure}
+  \end{lstlisting}
+
+  \subsection{Header \& Footer}
+
+  A nice header and footer can be added using fancyhdr and resize the page a
+  little using geometry. \\
+  Also very handy is the automatically set date (in this setup on the footers
+  left side).
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \usepackage[a4paper, total={6in, 9in}]{geometry}
+      \usepackage{fancyhdr}
+      \pagestyle{fancy}
+      \usepackage{datetime}
+
+      \newdateformat{monthdayyeardate}{
+        \THEDAY. \monthname[\THEMONTH] \THEYEAR}
+
+      \pagestyle{fancy}
+      \fancyhf{}
+      \rhead{Top right text}
+      \lhead{Top left text}
+      \rfoot{Page \thepage}
+      \lfoot{\monthdayyeardate\today}
+
+      \begin{document}
+      \end{document}
+  \end{lstlisting}
+
+  \subsection{Language \& Encoding}
+
+  The following packages can be used to set the encoding and a custom language.
+  In this example we use the language ngerman. This will rename most of the
+  headings to that language for example.
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \usepackage[utf8]{inputenc}
+      \usepackage[ngerman]{babel}
+
+      \begin{document}
+      \end{document}
+  \end{lstlisting}
+
+  \subsection{Title Page \& Abstract}
+
+  To add a title page add a new section within the document.
+
+  \begin{lstlisting}
+    \documentclass[titlepage]{article}
+
+      \begin{document}
+        \title{Example Document}
+        \author{Matthias Osswald}
+        \maketitle
+
+        \begin{abstract}
+          Lorem ipsum dolor sit amet, consetetur...
+        \end{abstract}
+      \end{document}
+  \end{lstlisting}
+
+  \subsection{Useful stuff}
+
+  The emergency stretch option is very useful to avoid lots of box oversize
+  errors since it allows a little over sizing. \\
+  The showframe package shows the box frames on removing [noframe] which also
+  is very handy for debugging.
+
+  \begin{lstlisting}
+    \documentclass{article}
+      \emergencystretch=1em
+      \usepackage[noframe]{showframe}
+
+      \begin{document}
+      \end{document}
+  \end{lstlisting}
+
+  To include external pdf pages into the document the package "pdfpages" can be
+  used. For including some colors to tables "colortbl" is pretty nice.
 
   \end{document}
