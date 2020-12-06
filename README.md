@@ -16,3 +16,8 @@ Render all blogposts to `./out` using:
 docker build -t latex2website .
 docker run -v `pwd`/out:/out latex2website:latest
 ```
+
+## Production
+
+Run `./scripts/setup-git-remote` and then `git push production` which will run
+a new build on the remote and update the website.
