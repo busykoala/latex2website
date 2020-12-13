@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+
+\lstset{numbers=left, numberstyle=sffamilytiny}
+
+\begin{document}
+
+  \section{Abstract Factory (Creational Pattern)}
+
+  This blog series about design patterns is a reference, how patterns
+  described in "Design Patterns: Elements of Reusable Object-Oriented Software"
+  by E. Gamma et al. can be implemented in Python.
+
+  \subsection{}
+
+  \begin{lstlisting}
+from abc import ABC, abstractmethod
+
+
+class AbstractCab(ABC):
+    @abstractmethod
+    def tell_color(self) -> str:
+        pass
+
+
+class AbstractBus(ABC):
+    @abstractmethod
+    def has_open_roof_top(self) -> bool:
+        pass
+
+
+class AbstractVehicleFactory(ABC):
+    @abstractmethod
+    def create_cab(self) -> AbstractCab:
+        pass
+
+    @abstractmethod
+    def create_bus(self) -> AbstractBus:
+        pass
+
+
+class CabParis(AbstractCab):
+    def tell_color(self) -> str:
+        return "Cabs in Paris are yellow."
+
+
+class CabLondon(AbstractCab):
+    def tell_color(self) -> str:
+        return "Cabs in London are black."
+
+
+class BusParis(AbstractBus):
+    def has_open_roof_top(self) -> bool:
+        return False
+
+
+class BusLondon(AbstractBus):
+    def has_open_roof_top(self) -> bool:
+        return True
+
+
+class VehicleFactoryParis(AbstractVehicleFactory):
+    def create_cab(self) -> AbstractCab:
+        return CabParis()
+
+    def create_bus(self) -> AbstractBus:
+        return BusParis()
+
+
+class VehicleFactoryLondon(AbstractVehicleFactory):
+    def create_cab(self) -> AbstractCab:
+        return CabLondon()
+
+    def create_bus(self) -> AbstractBus:
+        return BusLondon()
+
+
+def client_code(factory: AbstractVehicleFactory) -> None:
+    cab = factory.create_cab()
+    bus = factory.create_bus()
+
+    print(f"Has open rooftop: {bus.has_open_roof_top()}")
+    print(f"{cab.tell_color()}")
+
+
+if __name__ == "__main__":
+    print("Client code with the paris factory type:")
+    client_code(VehicleFactoryParis())
+    print("Client code with the london factory type:")
+    client_code(VehicleFactoryLondon())
+  \end{lstlisting}
+
+\end{document}
