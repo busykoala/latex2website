@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+
+\lstset{numbers=left, numberstyle=sffamilytiny}
+
+\begin{document}
+
+  \section{Pydantic Models \& Inheritance}
+
+  As a Python developer typing is not something which is commonly used. Still
+  it is very nice to have when working with e.g. external interfaces. For basic
+  type hinting there is the typing library in the standard lib. But it is very
+  limited when it comes to validation and serialization/deserialization.
+
+  Luckily there is this great library
+  \href{https://pydantic-docs.helpmanual.io/}{Pydantic}.
+  Below there is an example how to use it's most important features like
+  serialization, deserialization, validation and inheritance.
+
+  \subsection{}
+
+  \begin{lstlisting}
+from datetime import datetime
+from typing import List
+
+from pydantic import BaseModel
+from pydantic import validator
+
+
+class Wheel(BaseModel):
+    brand: str
+    date: datetime
+
+    @validator('date')
+    def date_must_be_after_2018(cls, date):
+        due_date = datetime(2019, 1, 1, 0, 0)
+        if date < due_date:
+            raise ValueError('must be after 2018')
+        return date
+
+
+class Car(BaseModel):
+    model: str
+    wheels: List[Wheel]
+
+
+if __name__ == '__main__':
+    good_data = {
+        'model': 'Ford Focus',
+        'wheels': [
+            {'brand': 'Michelin', 'date': '2020-12-22T22:22:00'},
+            {'brand': 'Bridgestone', 'date': '2019-12-22T22:22:00'}
+        ],
+    }
+
+    bad_data = {
+        'model': 'Ford Focus',
+        'wheels': [
+            {'brand': 'Michelin', 'date': '2018-12-22T22:22:00'},
+            {'brand': 'Bridgestone', 'date': '2019-12-22T22:22:00'}
+        ],
+    }
+
+    my_fancy_two_wheeled_car = Car(**good_data)
+    # this should return good_data with datetime values as wheel date
+    my_fancy_two_wheeled_car.dict()
+
+    # this should raise a pydantic.ValidationError because of one wheel date
+    my_broken_two_wheeled_car = Car(**bad_data)
+
+  \end{lstlisting}
+
+\end{document}
