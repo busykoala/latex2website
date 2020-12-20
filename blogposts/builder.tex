@@ -1,0 +1,104 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+
+\lstset{numbers=left, numberstyle=sffamilytiny}
+
+\begin{document}
+
+  \section{Builder (Creational Pattern)}
+
+  This blog series about design patterns is a reference, how patterns
+  described in "Design Patterns: Elements of Reusable Object-Oriented Software"
+  by E. Gamma et al. can be implemented in Python.
+
+  \subsection{}
+
+  \begin{lstlisting}
+from abc import ABC
+from abc import abstractmethod
+
+
+class IUfoBuilder(ABC):
+    @staticmethod
+    @abstractmethod
+    def get_origin() -> str:
+        """Get the UFOs origin
+        """
+
+    @staticmethod
+    @abstractmethod
+    def get_shape() -> str:
+        """Get the UFOs shape
+        """
+
+
+class Ufo:
+    def __init__(self):
+        self.__origin = None
+        self.__shape = None
+
+    def set_origin(self, origin):
+        self.__origin = origin
+
+    def set_shape(self, shape):
+        self.__shape = shape
+
+    def __str__(self):
+        return f"UFO from {self.__origin}, {self.__shape} shaped."
+
+
+class MagratheaUfoBuilder(IUfoBuilder):
+    @staticmethod
+    def get_origin():
+        return "Magrathea"
+
+    @staticmethod
+    def get_shape():
+        return "saucer"
+
+
+class AlphaCentauriUfoBuilder(IUfoBuilder):
+    @staticmethod
+    def get_origin():
+        return "Alpha Centauri"
+
+    @staticmethod
+    def get_shape():
+        return "mug"
+
+
+class UfoDirector:
+    __builder = None
+
+    def set_builder(self, builder):
+        self.__builder = builder
+
+    def construct(self):
+        ufo = Ufo()
+        origin = self.__builder.get_origin()
+        ufo.set_origin(origin)
+        shape = self.__builder.get_shape()
+        ufo.set_shape(shape)
+        return ufo
+
+
+if __name__ == '__main__':
+    ufo_director = UfoDirector()
+
+    magrathea_ufo_builder = MagratheaUfoBuilder()
+    alpha_centauri_ufo_builder = AlphaCentauriUfoBuilder()
+
+    ufo_director.set_builder(magrathea_ufo_builder)
+    magrathea_ufo = ufo_director.construct()
+
+    ufo_director.set_builder(alpha_centauri_ufo_builder)
+    alpha_centauri_ufo = ufo_director.construct()
+
+    print(magrathea_ufo)
+    print(alpha_centauri_ufo)
+  \end{lstlisting}
+
+\end{document}
