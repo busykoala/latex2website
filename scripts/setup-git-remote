@@ -11,4 +11,4 @@ setup_remote () {
     git fetch $name
 }
 
-setup_remote "production" "stable@homeServer:/var/www/busykoala.ch"
+setup_remote "production" "busykoala@rootServer:/home/busykoala/Projects/busykoala.ch"
