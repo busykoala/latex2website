@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+
+\lstset{numbers=left, numberstyle=sffamilytiny}
+
+\begin{document}
+
+  \section{Factory Method (Creational Pattern)}
+
+  This blog series about design patterns is a reference, how patterns
+  described in "Design Patterns: Elements of Reusable Object-Oriented Software"
+  by E. Gamma et al. can be implemented in Python.
+
+  \subsection{}
+
+  \begin{lstlisting}
+from abc import ABC
+from abc import abstractmethod
+
+
+class AnimalCreator(ABC):
+    @abstractmethod
+    def make_animal(self):
+        pass
+
+    def get_sentence(self) -> str:
+        animal = self.make_animal()
+        return animal.get_sound()
+
+
+class AnimalProduct(ABC):
+    @abstractmethod
+    def get_sound(self) -> str:
+        pass
+
+
+class FishCreator(AnimalCreator):
+    def make_animal(self) -> AnimalProduct:
+        return ConcreteFish()
+
+
+class HumanCreator(AnimalCreator):
+    def make_animal(self) -> AnimalProduct:
+        return ConcreteHuman()
+
+
+class ConcreteFish(AnimalProduct):
+    def get_sound(self) -> str:
+        return "Blub blub!"
+
+
+class ConcreteHuman(AnimalProduct):
+    def get_sound(self) -> str:
+        return "Hello World!"
+
+
+def client_code(creator: AnimalCreator) -> None:
+    print(creator.get_sentence())
+
+
+if __name__ == "__main__":
+    client_code(FishCreator())
+    client_code(HumanCreator())
+  \end{lstlisting}
+
+\end{document}
