@@ -75,3 +75,31 @@ h2 {
   font-size: 20px;
   color: rgba(0, 0, 0, 0.6);
 }
+
+/* Dummy cookie popup */
+.cookie-container {
+  display: flex;
+  background: rgba(0, 52, 102, .7);
+  justify-content: center;
+}
+
+input {
+  position: absolute;
+  left: -9999px;
+}
+
+label {
+  display: none;
+  position: relative;
+  padding: 20px 20px 0;
+  cursor: pointer;
+}
+
+label a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+}
+
+input:checked + label {
+  display: flex;
+}
