@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+
+\lstset{numbers=left, numberstyle=sffamilytiny}
+
+\begin{document}
+
+  \section{Teamwork using Overleaf and Zotero}
+
+  If you need to work on a scientific paper as a team it might be hard to
+  coordinate everything using LaTeX.
+  A very cool solution for that is using Overleaf connected with Zotero.
+
+  Overleaf lets your team work simultaneously on the LaTeX paper as you might
+  know it from Google Docs.
+  Another great advantage about it is, that you don't have to set up the complete
+  LaTeX build environment locally.
+
+  For your bibliography you can now create a shared group in Zotero.
+  If you hit \textit{Groups > your-group > Settings} and set \textit{Library Reading}
+  to \textit{Anyone on the internet} you will be able to use the Zotero api to
+  add a synchronized bibtex file to Overleaf.
+
+  For that go to your Overleaf project and select \textit{New File} and then
+  \textit{From External URL}.
+  Use something like the following pattern for the URL:
+
+  \begin{lstlisting}
+https://api.zotero.org/groups/<group-id>/items/top?format=bibtex&style=numeric&limit=100
+  \end{lstlisting}
+
+  You can retrieve the \textit{<group-id>} from the url when you visit it online on
+  zotero.org.
+
+\end{document}
